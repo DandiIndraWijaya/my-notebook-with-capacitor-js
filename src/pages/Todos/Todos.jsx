@@ -16,7 +16,6 @@ import Button from '../../components/Button/Button';
 const Todos = ({ theme }) => {
   const [time, setTime] = useState(['10:00', '11:00']);
   const [add, setAdd] = useState(false);
-  // const [buttonText, setButtonText] = useState('Add Todo');
   const [todo, setTodo] = useState('');
   const [todos, setTodos] = TodosInLocalStorage('todos');
 
@@ -25,8 +24,6 @@ const Todos = ({ theme }) => {
   const onclickNewButton = () => {
     const condiditon = !add;
     setAdd(condiditon);
-    // const text = !add ? 'Done' : 'Add Todo';
-    // setButtonText(text);
   };
 
   const onChangeTodo = (e) => {
@@ -35,7 +32,7 @@ const Todos = ({ theme }) => {
 
   const onClickAddButton = () => {
     const addedTodo = [...todos, { time, todo, isComplete: false }];
-    if (todos.length > 1) {
+    if (todos.length !== 0) {
       const len = addedTodo.length - 1;
       let swapped;
       do {
@@ -58,22 +55,16 @@ const Todos = ({ theme }) => {
     setTodos(addedTodo);
   };
 
-  // const completeTodo = (index) => {
-  //   const addedTodo = [...todos];
-  //   addedTodo[index].isComplete = !addedTodo.isComplete;
-  //   setTodos(addedTodo);
-  // };
-
   return (
     <div id="schedules" className={styles.schedules}>
       <center>
-        <h1>Todos</h1>
+        <h3>Todos</h3>
         <div style={{ marginTop: '10px' }}>
           <Button onClick={onclickNewButton}>
             <FontAwesomeIcon
               title="Complete"
               color={secondary}
-              size="lg"
+              size="md"
               icon={!add ? faPencilAlt : faTimes}
             />
           </Button>
@@ -102,7 +93,7 @@ const Todos = ({ theme }) => {
       {
         todos.length > 0
         && (
-        <table style={{ width: '100%', marginTop: '20px' }}>
+        <table style={{ width: '100%', marginTop: '10px' }}>
           <thead>
             <tr>
               <th className={styles.th}>Time</th>
@@ -113,16 +104,21 @@ const Todos = ({ theme }) => {
           <tbody>
             {
               todos.map((data, key) => (
-                <tr key={key}>
+                <tr key={key} style={data.isComplete ? { textDecoration: 'line-through' } : {}}>
                   <td className={styles.td}>{`${data.time[0]} - ${data.time[1]}`}</td>
                   <td className={styles.td}>{data.todo}</td>
                   <td className={styles.td}>
                     <FontAwesomeIcon
                       title="Complete"
-                      style={{ marginRight: '10px' }}
+                      style={{ marginRight: '10px', cursor: 'pointer' }}
                       color={primary}
                       size="sm"
                       icon={faCheck}
+                      onClick={() => {
+                        todos[key].isComplete = !todos[key].isComplete;
+                        const updateTodos = [...todos];
+                        setTodos(updateTodos);
+                      }}
                     />
 
                     <FontAwesomeIcon

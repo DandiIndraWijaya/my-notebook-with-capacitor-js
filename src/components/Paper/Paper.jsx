@@ -2,6 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTheme } from '@emotion/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBook,
+} from '@fortawesome/free-solid-svg-icons';
 import styles from './Paper.module.css';
 
 const Paper = ({ children, theme }) => {
@@ -9,7 +13,15 @@ const Paper = ({ children, theme }) => {
   return (
     <div className={styles.paper}>
       <div style={{ position: 'fixed', top: '10px' }}>
-        <h3 style={{ color: primary }}>My NoteBook</h3>
+        <h5 style={{ color: primary }}>
+          <FontAwesomeIcon
+            color={primary}
+            size="md"
+            icon={faBook}
+          />
+          {' '}
+          My NoteBook
+        </h5>
       </div>
 
       {children}
