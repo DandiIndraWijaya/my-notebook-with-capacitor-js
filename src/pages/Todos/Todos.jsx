@@ -35,33 +35,27 @@ const Todos = ({ theme }) => {
 
   const onClickAddButton = () => {
     const addedTodo = [...todos, { time, todo, isComplete: false }];
-    const newTodos = addedTodo;
     if (todos.length > 1) {
-      const sortedTodo = () => {
-        const len = newTodos.length - 1;
-        let swapped;
-        do {
-          swapped = false;
-          for (let i = 0; i < len; i += 1) {
-            const splitedFirstTodo = newTodos[i].time[0].split(':');
-            const parseIntFirstTodo = parseInt(splitedFirstTodo[0]);
+      const len = addedTodo.length - 1;
+      let swapped;
+      do {
+        swapped = false;
+        for (let i = 0; i < len; i += 1) {
+          const splitedFirstTodo = addedTodo[i].time[0].split(':');
+          const parseIntFirstTodo = parseInt(splitedFirstTodo[0]);
 
-            const splitedSecondTodo = newTodos[i + 1].time[0].split(':');
-            const parseIntSecondTodo = parseInt(splitedSecondTodo[0]);
-            if (parseIntFirstTodo > parseIntSecondTodo) {
-              const tmp = newTodos[i];
-              newTodos[i] = newTodos[i + 1];
-              newTodos[i + 1] = tmp;
-              swapped = true;
-            }
+          const splitedSecondTodo = addedTodo[i + 1].time[0].split(':');
+          const parseIntSecondTodo = parseInt(splitedSecondTodo[0]);
+          if (parseIntFirstTodo > parseIntSecondTodo) {
+            const tmp = addedTodo[i];
+            addedTodo[i] = addedTodo[i + 1];
+            addedTodo[i + 1] = tmp;
+            swapped = true;
           }
-        } while (swapped);
-      };
-      sortedTodo();
-      setTodos(newTodos);
-    } else {
-      setTodos(addedTodo);
+        }
+      } while (swapped);
     }
+    setTodos(addedTodo);
   };
 
   // const completeTodo = (index) => {
