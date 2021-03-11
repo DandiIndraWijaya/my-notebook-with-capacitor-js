@@ -34,7 +34,7 @@ const ScheduleInLocalStorage = (localStorageKey) => {
 
 const UserInLocalStorage = (localStorageKey) => {
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem(localStorageKey)) || {},
+    JSON.parse(localStorage.getItem(localStorageKey)) || { name: '', quote: '' },
   );
 
   if (!localStorageKey) {
