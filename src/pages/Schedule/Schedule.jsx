@@ -17,7 +17,7 @@ import Button from '../../components/Button/Button';
 import styles from './Schedule.module.css';
 
 const Schedule = ({ theme }) => {
-  const { secondary } = theme;
+  const { primary, secondary } = theme;
   const [time, setTime] = useState(['06:00', '07:00']);
   const [todo, setTodo] = useState('');
   const [add, setAdd] = useState(false);
@@ -28,6 +28,8 @@ const Schedule = ({ theme }) => {
   let tempDay;
   let length = 0;
   let styleTableBorder;
+  const currentDateTime = new Date();
+
   useEffect(() => {
     let monday = 0;
     let tuesday = 0;
@@ -161,8 +163,12 @@ const Schedule = ({ theme }) => {
                         if (s.day === _day) {
                           length += 1;
                           styleTableBorder = length === dayLength[key] ? { border: 'unset' } : {};
+                          const splitedTimeStart = s.time[0].split(':');
+                          const parseIntTimeStart = parseInt(splitedTimeStart[0]);
+                          const splitedTimeEnd = s.time[1].split(':');
+                          const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
                           return (
-                            <tr key={k}>
+                            <tr key={k} style={currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { color: secondary, backgroundColor: primary } : {}}>
                               <td className={styles.tdInside} style={styleTableBorder}>
                                 {s.time[0]}
                                 {' '}
@@ -170,8 +176,11 @@ const Schedule = ({ theme }) => {
                                 {' '}
                                 {s.time[1]}
                               </td>
-                              <td className={styles.tdInside} style={styleTableBorder}>{s.todo}</td>
-                              <td>
+                              <td className={styles.tdInside} style={styleTableBorder}>
+                                {s.todo}
+                                {' '}
+                              </td>
+                              <td style={{ backgroundColor: 'white', border: 'unset' }}>
                                 <FontAwesomeIcon
                                   title="Delete"
                                   style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
