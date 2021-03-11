@@ -125,7 +125,7 @@ const Schedule = ({ theme }) => {
         { add
           && (
           <div className="todoForm">
-            <select className={styles.input} onChange={onChangeDay}>
+            <select className={styles.input} style={{ marginTop: '0px' }} onChange={onChangeDay}>
               {days.map((_day, key) => (
                 <option value={_day} key={key}>{_day}</option>
               ))}
@@ -157,9 +157,12 @@ const Schedule = ({ theme }) => {
             days.map((_day, key) => (
               <tr key={key}>
                 <td className={styles.td} style={{ fontWeight: 'bold' }}>{_day}</td>
-                <td className={styles.td}>
-                  <table style={{ width: '100%' }}>
-                    {
+                {
+                  schedule.length !== 0
+                  && (
+                  <td className={styles.td}>
+                    <table style={{ width: '100%' }}>
+                      {
                       schedule.map((s, k) => {
                         if (tempDay !== _day) {
                           length = 0;
@@ -204,8 +207,15 @@ const Schedule = ({ theme }) => {
                         }
                       })
                     }
-                  </table>
-                </td>
+                    </table>
+                  </td>
+                  )
+                }
+                {
+                  schedule.length === 0
+                  && <td className={styles.td}>-</td>
+                }
+
               </tr>
             ))
           }

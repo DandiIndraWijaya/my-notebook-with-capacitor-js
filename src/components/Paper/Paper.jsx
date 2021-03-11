@@ -32,7 +32,7 @@ const Paper = ({ children, theme }) => {
 
         <div style={{ flexGrow: 1 }}>
           <div style={{
-            position: 'fixed', top: '10px', right: '10px', backgroundColor: 'white',
+            position: 'fixed', top: '10px', right: '6%', backgroundColor: 'white',
           }}
           >
             <h5 style={{ color: primary, textDecoration: 'underline' }}>
