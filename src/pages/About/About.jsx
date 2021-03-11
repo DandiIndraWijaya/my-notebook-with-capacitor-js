@@ -23,7 +23,7 @@ const About = ({ theme }) => {
       >
         <center>
           <h1>About</h1>
-          <p style={{ marginTop: '20px' }}>MyNoteBook is an application for writing daily schedule and activities.</p>
+          <p style={{ marginTop: '20px' }}>My NoteBook is an application for writing daily schedule and activities.</p>
           <p style={{ marginTop: '60px', color: primary }}>
             © copyright 2020 | Built By
             {' '}

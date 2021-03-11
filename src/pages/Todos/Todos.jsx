@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable radix */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
@@ -22,6 +23,7 @@ const Todos = ({ theme }) => {
   const [todos, setTodos] = TodosInLocalStorage('todos');
   const { primary, secondary } = theme;
   const [onPage, setOnPage] = useState(false);
+  const currentDateTime = new Date();
 
   useEffect(() => {
     setTimeout(() => setOnPage(true), 500);
@@ -120,38 +122,47 @@ const Todos = ({ theme }) => {
 
           <tbody>
             {
-              todos.map((data, key) => (
-                <tr key={key} style={data.isComplete ? { textDecoration: 'line-through' } : {}}>
-                  <td className={styles.td}>{`${data.time[0]} - ${data.time[1]}`}</td>
-                  <td className={styles.td}>{data.todo}</td>
-                  <td className={styles.td}>
-                    <FontAwesomeIcon
-                      title="Complete"
-                      style={{ marginRight: '10px', cursor: 'pointer' }}
-                      color={primary}
-                      size="sm"
-                      icon={faCheck}
-                      onClick={() => {
-                        todos[key].isComplete = !todos[key].isComplete;
-                        const updateTodos = [...todos];
-                        setTodos(updateTodos);
-                      }}
-                    />
+              todos.map((data, key) => {
+                const splitedTimeStart = data.time[0].split(':');
+                const parseIntTimeStart = parseInt(splitedTimeStart[0]);
+                const splitedTimeEnd = data.time[1].split(':');
+                const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
 
-                    <FontAwesomeIcon
-                      title="Delete"
-                      style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
-                      size="sm"
-                      icon={faTrash}
-                      onClick={() => {
-                        const removedTodos = todos.filter((_todo, index) => index !== key);
-                        setTodos(removedTodos);
-                      }}
-                    />
+                const textDecoration = data.isComplete ? 'line-through' : 'unset';
+                const active = currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { textDecoration, color: secondary, backgroundColor: primary } : { textDecoration };
+                return (
+                  <tr key={key} style={active}>
+                    <td className={styles.td}>{`${data.time[0]} - ${data.time[1]}`}</td>
+                    <td className={styles.td}>{data.todo}</td>
+                    <td className={styles.td} style={{ backgroundColor: secondary, color: primary }}>
+                      <FontAwesomeIcon
+                        title="Complete"
+                        style={{ marginRight: '10px', cursor: 'pointer' }}
+                        color={primary}
+                        size="sm"
+                        icon={faCheck}
+                        onClick={() => {
+                          todos[key].isComplete = !todos[key].isComplete;
+                          const updateTodos = [...todos];
+                          setTodos(updateTodos);
+                        }}
+                      />
 
-                  </td>
-                </tr>
-              ))
+                      <FontAwesomeIcon
+                        title="Delete"
+                        style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                        size="sm"
+                        icon={faTrash}
+                        onClick={() => {
+                          const removedTodos = todos.filter((_todo, index) => index !== key);
+                          setTodos(removedTodos);
+                        }}
+                      />
+
+                    </td>
+                  </tr>
+                );
+              })
             }
           </tbody>
         </table>
