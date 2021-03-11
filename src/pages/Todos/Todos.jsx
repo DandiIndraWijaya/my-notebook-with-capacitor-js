@@ -9,12 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck, faTrash, faPencilAlt, faTimes, faSmile,
 } from '@fortawesome/free-solid-svg-icons';
-import { TodosInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
+import { TodosInLocalStorage, UserInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
 import styles from './Todos.module.css';
 import Button from '../../components/Button/Button';
 
 const Todos = ({ theme }) => {
   const [time, setTime] = useState(['06:00', '07:00']);
+  const { quote } = UserInLocalStorage('user')[0];
   const [add, setAdd] = useState(false);
   const [todo, setTodo] = useState('');
   const [todos, setTodos] = TodosInLocalStorage('todos');
@@ -59,6 +60,11 @@ const Todos = ({ theme }) => {
     <div id="schedules" className={styles.schedules}>
       <center>
         <h3>Todos</h3>
+        <div style={{ marginTop: '10px', color: 'grey' }}>
+          <i>
+            <h5>{`''${quote}''`}</h5>
+          </i>
+        </div>
         <div style={{ marginTop: '10px' }}>
           <Button onClick={onclickNewButton}>
             <FontAwesomeIcon
@@ -93,7 +99,7 @@ const Todos = ({ theme }) => {
       {
         todos.length > 0
         && (
-        <table style={{ width: '100%', margin: '10px 0px 150px' }}>
+        <table style={{ width: '100%', margin: '0px 0px 150px' }}>
           <thead>
             <tr>
               <th className={styles.th}>Time</th>

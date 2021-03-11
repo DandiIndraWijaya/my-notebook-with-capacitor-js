@@ -12,13 +12,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCalendar, faTimes, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { ScheduleInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
+import { ScheduleInLocalStorage, UserInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
 import Button from '../../components/Button/Button';
 import styles from './Schedule.module.css';
 
 const Schedule = ({ theme }) => {
   const { primary, secondary } = theme;
   const [time, setTime] = useState(['06:00', '07:00']);
+  const { quote } = UserInLocalStorage('user')[0];
   const [todo, setTodo] = useState('');
   const [add, setAdd] = useState(false);
   const [day, setDay] = useState('Monday');
@@ -103,6 +104,11 @@ const Schedule = ({ theme }) => {
     <div id="schedule" className={styles.schedule}>
       <center>
         <h3>Daily Schedule</h3>
+        <div style={{ marginTop: '10px', color: 'grey' }}>
+          <i>
+            <h5>{`''${quote}''`}</h5>
+          </i>
+        </div>
         <div style={{ marginTop: '10px' }}>
           <Button onClick={onclickNewButton}>
             <FontAwesomeIcon
@@ -139,7 +145,7 @@ const Schedule = ({ theme }) => {
           )}
 
       </center>
-      <table style={{ width: '100%', margin: '10px 0px 150px' }}>
+      <table style={{ width: '100%', margin: '0px 0px 150px' }}>
         <thead>
           <tr>
             <th className={styles.th}>Day</th>

@@ -11,7 +11,7 @@ const Routes = () => {
   return (
     <div>
       <SlideRoutes
-        pathList={['/todos', '/schedule']}
+        pathList={['/todos', '/schedule', '/']}
         location={location}
         duration={500}
       >

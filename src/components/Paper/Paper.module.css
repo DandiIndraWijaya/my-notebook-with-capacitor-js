@@ -5,6 +5,7 @@
     border: solid 1px gainsboro;
     border-radius: 8px;
     padding: 10px;
+    position: relative;
 }
 
 @media only screen and (max-width: 800px){

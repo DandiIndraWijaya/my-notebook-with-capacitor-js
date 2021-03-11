@@ -6,6 +6,7 @@ import { withRouter, useLocation, Link } from 'react-router-dom';
 import {
   faClock,
   faCalendar,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './Navigation.module.css';
 import './style.css';
@@ -18,7 +19,7 @@ const Navigation = ({ theme }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => setOnPageValue(true), 2900);
+    setTimeout(() => setOnPageValue(true), 1000);
   }, []);
   // eslint-disable-next-line react/prop-types
   const { primary } = theme;
@@ -32,7 +33,7 @@ const Navigation = ({ theme }) => {
   };
 
   return (
-    <CSSTransition in={onPage} timeout={1000} classNames="alert" unmountOnExit>
+    <CSSTransition in={onPage} timeout={100} classNames="alert" unmountOnExit>
       <div className={styles.navigation} style={{ color: primary }}>
 
         <center>
@@ -65,6 +66,21 @@ const Navigation = ({ theme }) => {
                 <span style={selected}>Schedule</span>
                 )}
                 {location.pathname !== '/schedule' && <span>Schedule</span>}
+              </Link>
+            </div>
+            <div>
+              <Link to="/" className={styles.link}>
+                <FontAwesomeIcon
+                  title="Me"
+                  className={styles.icon}
+                  size="2x"
+                  icon={faUser}
+                />
+                <br />
+                {location.pathname === '/' && (
+                <span style={selected}>Me</span>
+                )}
+                {location.pathname !== '/' && <span>Me</span>}
               </Link>
             </div>
           </div>
