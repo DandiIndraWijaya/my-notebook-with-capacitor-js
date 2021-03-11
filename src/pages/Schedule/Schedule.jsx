@@ -116,11 +116,16 @@ const Schedule = ({ theme }) => {
       <div id="schedule" className={styles.schedule}>
         <center>
           <h3>Daily Schedule</h3>
-          <div style={{ marginTop: '10px', color: 'grey' }}>
-            <i>
-              <h5>{`''${quote}''`}</h5>
-            </i>
-          </div>
+          {
+            quote
+            && (
+            <div style={{ marginTop: '10px', color: 'grey' }}>
+              <i>
+                <h5>{`''${quote}''`}</h5>
+              </i>
+            </div>
+            )
+          }
           <div style={{ marginTop: '10px' }}>
             <Button onClick={onclickNewButton}>
               <FontAwesomeIcon
