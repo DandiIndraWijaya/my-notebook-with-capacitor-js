@@ -16,8 +16,8 @@ const TodosInLocalStorage = (localStorageKey) => {
   return [todos, setTodos];
 };
 
-const SchedulesInLocalStorage = (localStorageKey) => {
-  const [todos, setTodos] = useState(
+const ScheduleInLocalStorage = (localStorageKey) => {
+  const [schedule, setSchedule] = useState(
     JSON.parse(localStorage.getItem(localStorageKey)) || [],
   );
 
@@ -26,10 +26,10 @@ const SchedulesInLocalStorage = (localStorageKey) => {
   }
 
   useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(todos));
-  }, [todos, localStorageKey]);
+    localStorage.setItem(localStorageKey, JSON.stringify(schedule));
+  }, [schedule, localStorageKey]);
 
-  return [todos, setTodos];
+  return [schedule, setSchedule];
 };
 
-export { TodosInLocalStorage, SchedulesInLocalStorage };
+export { TodosInLocalStorage, ScheduleInLocalStorage };

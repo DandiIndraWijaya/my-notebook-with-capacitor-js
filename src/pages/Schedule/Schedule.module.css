@@ -1,3 +1,35 @@
-.schedule {
+.schedule{
     margin-top: 50px;
+}
+
+.input {
+    margin-top: 10px;
+    border-radius: 8px;
+    border: solid 1px gray;
+    padding: 5px;
+    font-size: 18px;
+    background-color: white;
+}
+
+.th{
+    padding: 10px;
+}
+
+.td{
+    text-align: center;
+    padding: 10px;
+    border-top: solid 1px gainsboro;
+}
+
+.tdInside{
+    width: 50%;
+    text-align: center;
+    padding: 5px;
+    border-bottom: solid 1px gainsboro;
+}
+
+@media (max-width: 600px){
+    .td{
+        font-size: 10pt;
+    }
 }

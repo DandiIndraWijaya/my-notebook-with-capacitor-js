@@ -14,7 +14,7 @@ import styles from './Todos.module.css';
 import Button from '../../components/Button/Button';
 
 const Todos = ({ theme }) => {
-  const [time, setTime] = useState(['10:00', '11:00']);
+  const [time, setTime] = useState(['06:00', '07:00']);
   const [add, setAdd] = useState(false);
   const [todo, setTodo] = useState('');
   const [todos, setTodos] = TodosInLocalStorage('todos');
