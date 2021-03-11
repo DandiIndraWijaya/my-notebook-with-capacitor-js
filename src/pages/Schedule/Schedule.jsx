@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 /* eslint-disable radix */
@@ -9,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCalendar, faTimes,
+  faCalendar, faTimes, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { ScheduleInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
 import Button from '../../components/Button/Button';
@@ -136,7 +137,7 @@ const Schedule = ({ theme }) => {
           )}
 
       </center>
-      <table style={{ width: '100%', marginTop: '10px' }}>
+      <table style={{ width: '100%', margin: '10px 0px 150px' }}>
         <thead>
           <tr>
             <th className={styles.th}>Day</th>
@@ -147,7 +148,7 @@ const Schedule = ({ theme }) => {
           {
             days.map((_day, key) => (
               <tr key={key}>
-                <td className={styles.td}>{_day}</td>
+                <td className={styles.td} style={{ fontWeight: 'bold' }}>{_day}</td>
                 <td className={styles.td}>
                   <table style={{ width: '100%' }}>
                     {
@@ -170,6 +171,19 @@ const Schedule = ({ theme }) => {
                                 {s.time[1]}
                               </td>
                               <td className={styles.tdInside} style={styleTableBorder}>{s.todo}</td>
+                              <td>
+                                <FontAwesomeIcon
+                                  title="Delete"
+                                  style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                                  size="xs"
+                                  icon={faTrash}
+                                  onClick={() => {
+                                    const removedSchedule = schedule.filter((_schedule, index) => index !== k);
+                                    setSchedule(removedSchedule);
+                                  }}
+                                />
+
+                              </td>
                             </tr>
                           );
                         }

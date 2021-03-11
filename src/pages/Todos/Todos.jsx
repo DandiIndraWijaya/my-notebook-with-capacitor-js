@@ -93,7 +93,7 @@ const Todos = ({ theme }) => {
       {
         todos.length > 0
         && (
-        <table style={{ width: '100%', marginTop: '10px' }}>
+        <table style={{ width: '100%', margin: '10px 0px 150px' }}>
           <thead>
             <tr>
               <th className={styles.th}>Time</th>
