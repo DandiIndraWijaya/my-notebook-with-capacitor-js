@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
 import styles from './Index.module.css';
 import Button from '../../components/Button/Button';
 import { UserInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
@@ -10,6 +11,11 @@ const Index = () => {
   const [name, setName] = useState(user.name);
   const [quote, setQuote] = useState(user.quote);
   const [isEqual, setIsEqual] = useState(false);
+  const [onPage, setOnPage] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setOnPage(true), 500);
+  }, []);
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -39,23 +45,30 @@ const Index = () => {
   }, [name, quote, user]);
 
   return (
-    <div id="index" className={styles.index}>
-      <center>
-        <h4>My Name :</h4>
-        <input type="text" onChange={onChangeName} value={name} className={styles.input} />
-        <br />
-        <br />
-        <h4>Quote That Inspire Me :</h4>
-        <textarea className={styles.input} value={quote} onChange={onChangeQuote} rows="3" />
-        <br />
-        <br />
-        {
-          isEqual
-          && <Button onClick={onClickSave}>Save</Button>
-        }
+    <CSSTransition
+      in={onPage}
+      timeout={1000}
+      classNames="alert"
+      unmountOnExit
+    >
+      <div id="index" className={styles.index}>
+        <center>
+          <h4>My Name :</h4>
+          <input type="text" onChange={onChangeName} value={name} className={styles.input} />
+          <br />
+          <br />
+          <h4>Quote That Inspire Me :</h4>
+          <textarea className={styles.input} value={quote} onChange={onChangeQuote} rows="3" />
+          <br />
+          <br />
+          {
+      isEqual
+      && <Button onClick={onClickSave}>Save</Button>
+    }
 
-      </center>
-    </div>
+        </center>
+      </div>
+    </CSSTransition>
 
   );
 };

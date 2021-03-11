@@ -9,6 +9,7 @@ import { withTheme } from '@emotion/react';
 import { withRouter } from 'react-router-dom';
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CSSTransition } from 'react-transition-group';
 import {
   faCalendar, faTimes, faTrash,
 } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +31,11 @@ const Schedule = ({ theme }) => {
   let length = 0;
   let styleTableBorder;
   const currentDateTime = new Date();
+  const [onPage, setOnPage] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setOnPage(true), 500);
+  }, []);
 
   useEffect(() => {
     let monday = 0;
@@ -101,127 +107,136 @@ const Schedule = ({ theme }) => {
   };
 
   return (
-    <div id="schedule" className={styles.schedule}>
-      <center>
-        <h3>Daily Schedule</h3>
-        <div style={{ marginTop: '10px', color: 'grey' }}>
-          <i>
-            <h5>{`''${quote}''`}</h5>
-          </i>
-        </div>
-        <div style={{ marginTop: '10px' }}>
-          <Button onClick={onclickNewButton}>
-            <FontAwesomeIcon
-              title="Complete"
-              color={secondary}
-              size="md"
-              icon={!add ? faCalendar : faTimes}
-            />
-          </Button>
-        </div>
-      </center>
-      <br />
-      <center>
-        { add
-          && (
-          <div className="todoForm">
-            <select className={styles.input} style={{ marginTop: '0px' }} onChange={onChangeDay}>
-              {days.map((_day, key) => (
-                <option value={_day} key={key}>{_day}</option>
-              ))}
-            </select>
-            <div style={{ marginTop: '10px' }}>
-              <TimeRangePicker
-                onChange={setTime}
-                value={time}
-                disableClock
-              />
-            </div>
-            <input className={styles.input} onChange={onChangeTodo} type="text" placeholder="Todo" />
-            <div style={{ marginTop: '10px' }}>
-              <Button onClick={onClickAddButton}>Add</Button>
-            </div>
+    <CSSTransition
+      in={onPage}
+      timeout={1000}
+      classNames="alert"
+      unmountOnExit
+    >
+      <div id="schedule" className={styles.schedule}>
+        <center>
+          <h3>Daily Schedule</h3>
+          <div style={{ marginTop: '10px', color: 'grey' }}>
+            <i>
+              <h5>{`''${quote}''`}</h5>
+            </i>
           </div>
-          )}
+          <div style={{ marginTop: '10px' }}>
+            <Button onClick={onclickNewButton}>
+              <FontAwesomeIcon
+                title="Complete"
+                color={secondary}
+                size="md"
+                icon={!add ? faCalendar : faTimes}
+              />
+            </Button>
+          </div>
+        </center>
+        <br />
+        <center>
+          { add
+        && (
+        <div className="todoForm">
+          <select className={styles.input} style={{ marginTop: '0px' }} onChange={onChangeDay}>
+            {days.map((_day, key) => (
+              <option value={_day} key={key}>{_day}</option>
+            ))}
+          </select>
+          <div style={{ marginTop: '10px' }}>
+            <TimeRangePicker
+              onChange={setTime}
+              value={time}
+              disableClock
+            />
+          </div>
+          <input className={styles.input} onChange={onChangeTodo} type="text" placeholder="Todo" />
+          <div style={{ marginTop: '10px' }}>
+            <Button onClick={onClickAddButton}>Add</Button>
+          </div>
+        </div>
+        )}
 
-      </center>
-      <table style={{ width: '100%', margin: '0px 0px 150px' }}>
-        <thead>
-          <tr>
-            <th className={styles.th}>Day</th>
-            <th className={styles.th}>Time & Todo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            days.map((_day, key) => (
-              <tr key={key}>
-                <td className={styles.td} style={{ fontWeight: 'bold' }}>{_day}</td>
-                {
-                  schedule.length !== 0
-                  && (
-                  <td className={styles.td}>
-                    <table style={{ width: '100%' }}>
-                      {
-                      schedule.map((s, k) => {
-                        if (tempDay !== _day) {
-                          length = 0;
-                        }
-                        tempDay = _day;
+        </center>
+        <table style={{ width: '100%', margin: '0px 0px 150px' }}>
+          <thead>
+            <tr>
+              <th className={styles.th}>Day</th>
+              <th className={styles.th}>Time & Todo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+          days.map((_day, key) => (
+            <tr key={key}>
+              <td className={styles.td} style={{ fontWeight: 'bold' }}>{_day}</td>
+              {
+                schedule.length !== 0
+                && (
+                <td className={styles.td}>
+                  <table style={{ width: '100%' }}>
+                    {
+                    schedule.map((s, k) => {
+                      if (tempDay !== _day) {
+                        length = 0;
+                      }
+                      tempDay = _day;
 
-                        if (s.day === _day) {
-                          length += 1;
-                          styleTableBorder = length === dayLength[key] ? { border: 'unset' } : {};
-                          const splitedTimeStart = s.time[0].split(':');
-                          const parseIntTimeStart = parseInt(splitedTimeStart[0]);
-                          const splitedTimeEnd = s.time[1].split(':');
-                          const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
-                          return (
-                            <tr key={k} style={currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { color: secondary, backgroundColor: primary } : {}}>
-                              <td className={styles.tdInside} style={styleTableBorder}>
-                                {s.time[0]}
-                                {' '}
-                                -
-                                {' '}
-                                {s.time[1]}
-                              </td>
-                              <td className={styles.tdInside} style={styleTableBorder}>
-                                {s.todo}
-                                {' '}
-                              </td>
-                              <td style={{ backgroundColor: 'white', border: 'unset' }}>
-                                <FontAwesomeIcon
-                                  title="Delete"
-                                  style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
-                                  size="xs"
-                                  icon={faTrash}
-                                  onClick={() => {
-                                    const removedSchedule = schedule.filter((_schedule, index) => index !== k);
-                                    setSchedule(removedSchedule);
-                                  }}
-                                />
+                      if (s.day === _day) {
+                        length += 1;
+                        styleTableBorder = length === dayLength[key] ? { border: 'unset' } : {};
+                        const splitedTimeStart = s.time[0].split(':');
+                        const parseIntTimeStart = parseInt(splitedTimeStart[0]);
+                        const splitedTimeEnd = s.time[1].split(':');
+                        const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
+                        return (
+                          <tr key={k} style={currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { color: secondary, backgroundColor: primary } : {}}>
+                            <td className={styles.tdInside} style={styleTableBorder}>
+                              {s.time[0]}
+                              {' '}
+                              -
+                              {' '}
+                              {s.time[1]}
+                            </td>
+                            <td className={styles.tdInside} style={styleTableBorder}>
+                              {s.todo}
+                              {' '}
+                            </td>
+                            <td style={{ backgroundColor: 'white', border: 'unset' }}>
+                              <FontAwesomeIcon
+                                title="Delete"
+                                style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                                size="xs"
+                                icon={faTrash}
+                                onClick={() => {
+                                  const removedSchedule = schedule.filter((_schedule, index) => index !== k);
+                                  setSchedule(removedSchedule);
+                                }}
+                              />
 
-                              </td>
-                            </tr>
-                          );
-                        }
-                      })
-                    }
-                    </table>
-                  </td>
-                  )
-                }
-                {
-                  schedule.length === 0
-                  && <td className={styles.td}>-</td>
-                }
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })
+                  }
+                  </table>
+                </td>
+                )
+              }
+              {
+                schedule.length === 0
+                && <td className={styles.td}>-</td>
+              }
 
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+            </tr>
+          ))
+        }
+          </tbody>
+        </table>
+      </div>
+
+    </CSSTransition>
+
   );
 };
 export default withTheme(withRouter(Schedule));

@@ -7,6 +7,7 @@ import {
   faClock,
   faCalendar,
   faUser,
+  faBook,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './Navigation.module.css';
 import './style.css';
@@ -81,6 +82,21 @@ const Navigation = ({ theme }) => {
                 <span style={selected}>Me</span>
                 )}
                 {location.pathname !== '/' && <span>Me</span>}
+              </Link>
+            </div>
+            <div>
+              <Link to="/about" className={styles.link}>
+                <FontAwesomeIcon
+                  title="About"
+                  className={styles.icon}
+                  size="2x"
+                  icon={faBook}
+                />
+                <br />
+                {location.pathname === '/about' && (
+                <span style={selected}>About</span>
+                )}
+                {location.pathname !== '/about' && <span>About</span>}
               </Link>
             </div>
           </div>

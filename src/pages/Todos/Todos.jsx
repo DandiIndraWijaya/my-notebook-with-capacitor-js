@@ -1,10 +1,11 @@
 /* eslint-disable radix */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withTheme } from '@emotion/react';
 import { withRouter } from 'react-router-dom';
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheck, faTrash, faPencilAlt, faTimes, faSmile,
@@ -19,8 +20,12 @@ const Todos = ({ theme }) => {
   const [add, setAdd] = useState(false);
   const [todo, setTodo] = useState('');
   const [todos, setTodos] = TodosInLocalStorage('todos');
-
   const { primary, secondary } = theme;
+  const [onPage, setOnPage] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setOnPage(true), 500);
+  }, []);
 
   const onclickNewButton = () => {
     const condiditon = !add;
@@ -57,29 +62,35 @@ const Todos = ({ theme }) => {
   };
 
   return (
-    <div id="schedules" className={styles.schedules}>
-      <center>
-        <h3>Todos</h3>
-        <div style={{ marginTop: '10px', color: 'grey' }}>
-          <i>
-            <h5>{`''${quote}''`}</h5>
-          </i>
-        </div>
-        <div style={{ marginTop: '10px' }}>
-          <Button onClick={onclickNewButton}>
-            <FontAwesomeIcon
-              title="Complete"
-              color={secondary}
-              size="md"
-              icon={!add ? faPencilAlt : faTimes}
-            />
-          </Button>
-        </div>
-      </center>
+    <CSSTransition
+      in={onPage}
+      timeout={1000}
+      classNames="alert"
+      unmountOnExit
+    >
+      <div id="schedules" className={styles.schedules}>
+        <center>
+          <h3>Todos</h3>
+          <div style={{ marginTop: '10px', color: 'grey' }}>
+            <i>
+              <h5>{`''${quote}''`}</h5>
+            </i>
+          </div>
+          <div style={{ marginTop: '10px' }}>
+            <Button onClick={onclickNewButton}>
+              <FontAwesomeIcon
+                title="Complete"
+                color={secondary}
+                size="md"
+                icon={!add ? faPencilAlt : faTimes}
+              />
+            </Button>
+          </div>
+        </center>
 
-      <br />
-      <center>
-        { add
+        <br />
+        <center>
+          { add
           && (
           <div className="todoForm">
             <TimeRangePicker
@@ -95,8 +106,8 @@ const Todos = ({ theme }) => {
           </div>
           )}
 
-      </center>
-      {
+        </center>
+        {
         todos.length > 0
         && (
         <table style={{ width: '100%', margin: '0px 0px 150px' }}>
@@ -147,7 +158,7 @@ const Todos = ({ theme }) => {
         )
       }
 
-      {
+        {
         todos.length === 0
         && (
           <div style={{ marginTop: '150px', color: primary }}>
@@ -168,7 +179,9 @@ const Todos = ({ theme }) => {
         )
       }
 
-    </div>
+      </div>
+    </CSSTransition>
+
   );
 };
 
