@@ -137,15 +137,18 @@ const Todos = ({ theme }) => {
               todos.map((data, key) => {
                 const splitedTimeStart = data.time[0].split(':');
                 const parseIntTimeStart = parseInt(splitedTimeStart[0]);
+                const parseIntTimeStartMin = parseInt(splitedTimeStart[1]);
                 const splitedTimeEnd = data.time[1].split(':');
                 const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
-                const parseIntTimeEndSec = parseInt(splitedTimeEnd[1]);
+                const parseIntTimeEndMin = parseInt(splitedTimeEnd[1]);
 
                 let isActive;
-                if (currentDateTime.getHours() === parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
-                  if (parseIntTimeEndSec !== 0 && parseIntTimeStart === parseIntTimeEnd) {
+                if (currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getMinutes() >= parseIntTimeStartMin && currentDateTime.getHours() <= parseIntTimeEnd) {
+                  if (parseIntTimeEndMin !== 0 && parseIntTimeStart === parseIntTimeEnd) {
                     isActive = true;
-                  } else if (parseIntTimeStart < parseIntTimeEnd) {
+                  } else if (currentDateTime.getHours() >= parseIntTimeEnd) {
+                    isActive = false;
+                  } else {
                     isActive = true;
                   }
                 }
