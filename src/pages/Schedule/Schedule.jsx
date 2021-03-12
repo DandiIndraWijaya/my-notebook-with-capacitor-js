@@ -193,8 +193,19 @@ const Schedule = ({ theme }) => {
                         const parseIntTimeStart = parseInt(splitedTimeStart[0]);
                         const splitedTimeEnd = s.time[1].split(':');
                         const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
+                        const parseIntTimeEndSec = parseInt(splitedTimeEnd[1]);
+
+                        let isActive;
+                        if (currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
+                          if (parseIntTimeEndSec !== 0 && parseIntTimeStart === parseIntTimeEnd) {
+                            isActive = true;
+                          } else if (parseIntTimeStart < parseIntTimeEnd) {
+                            isActive = true;
+                          }
+                        }
+                        const active = isActive ? { color: secondary, backgroundColor: primary } : {};
                         return (
-                          <tr key={k} style={currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { color: secondary, backgroundColor: primary } : {}}>
+                          <tr key={k} style={active}>
                             <td className={styles.tdInside} style={styleTableBorder}>
                               {s.time[0]}
                               {' '}

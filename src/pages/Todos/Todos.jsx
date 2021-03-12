@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
 /* eslint-disable radix */
 /* eslint-disable react/prop-types */
@@ -9,7 +11,7 @@ import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faCheck, faTrash, faPencilAlt, faTimes, faSmile,
+  faTrash, faPencilAlt, faTimes, faSmile,
 } from '@fortawesome/free-solid-svg-icons';
 import { TodosInLocalStorage, UserInLocalStorage } from '../../hooks/UseStateWithLocalStorage';
 import styles from './Todos.module.css';
@@ -122,7 +124,11 @@ const Todos = ({ theme }) => {
           <thead>
             <tr>
               <th className={styles.th}>Time</th>
-              <th className={styles.th}>Todo</th>
+              <th className={styles.th}>
+                Todo
+                {' '}
+                <h6 style={{ color: primary }}>*Tap or Click to Complete a Todo</h6>
+              </th>
             </tr>
           </thead>
 
@@ -133,30 +139,37 @@ const Todos = ({ theme }) => {
                 const parseIntTimeStart = parseInt(splitedTimeStart[0]);
                 const splitedTimeEnd = data.time[1].split(':');
                 const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
+                const parseIntTimeEndSec = parseInt(splitedTimeEnd[1]);
 
+                let isActive;
+                if (currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
+                  if (parseIntTimeEndSec !== 0 && parseIntTimeStart === parseIntTimeEnd) {
+                    isActive = true;
+                  } else if (parseIntTimeStart < parseIntTimeEnd) {
+                    isActive = true;
+                  }
+                }
                 const textDecoration = data.isComplete ? 'line-through' : 'unset';
-                const active = currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() < parseIntTimeEnd ? { textDecoration, color: secondary, backgroundColor: primary } : { textDecoration };
+                const active = isActive ? { textDecoration, color: secondary, backgroundColor: primary } : { textDecoration };
                 return (
                   <tr key={key} style={active}>
                     <td className={styles.td}>{`${data.time[0]} - ${data.time[1]}`}</td>
-                    <td className={styles.td}>{data.todo}</td>
+                    <td
+                      className={styles.td}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        todos[key].isComplete = !todos[key].isComplete;
+                        const updateTodos = [...todos];
+                        setTodos(updateTodos);
+                      }}
+                    >
+                      {data.todo}
+
+                    </td>
                     <td className={styles.td} style={{ backgroundColor: secondary, color: primary }}>
                       <FontAwesomeIcon
-                        title="Complete"
-                        style={{ marginRight: '10px', cursor: 'pointer' }}
-                        color={primary}
-                        size="sm"
-                        icon={faCheck}
-                        onClick={() => {
-                          todos[key].isComplete = !todos[key].isComplete;
-                          const updateTodos = [...todos];
-                          setTodos(updateTodos);
-                        }}
-                      />
-
-                      <FontAwesomeIcon
                         title="Delete"
-                        style={{ color: 'red', marginLeft: '10px', cursor: 'pointer' }}
+                        style={{ color: 'red', cursor: 'pointer' }}
                         size="sm"
                         icon={faTrash}
                         onClick={() => {
@@ -172,6 +185,7 @@ const Todos = ({ theme }) => {
             }
           </tbody>
         </table>
+
         )
       }
 
