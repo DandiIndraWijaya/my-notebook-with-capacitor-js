@@ -30,12 +30,6 @@ const Index = () => {
     location.reload();
   };
 
-  window.onload = () => {
-    if (user.name !== '') {
-      window.location.href = '/todos';
-    }
-  };
-
   useEffect(() => {
     if (name !== user.name || quote !== user.quote) {
       setIsEqual(true);
