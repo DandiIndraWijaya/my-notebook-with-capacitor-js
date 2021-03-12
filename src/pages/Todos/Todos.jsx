@@ -145,14 +145,10 @@ const Todos = ({ theme }) => {
                 const parseIntTimeEnd = parseInt(splitedTimeEnd[0]);
                 const parseIntTimeEndMin = parseInt(splitedTimeEnd[1]);
                 let isActive;
-                if (currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() * 60 + currentDateTime.getMinutes() > parseIntTimeStartMin + parseIntTimeStart * 60 && currentDateTime.getHours() <= parseIntTimeEnd) {
-                  if (currentDateTime.getMinutes() > parseIntTimeEndMin && parseIntTimeStart === parseIntTimeEnd) {
-                    isActive = false;
-                  } else if (currentDateTime.getHours() >= parseIntTimeEnd) {
-                    isActive = false;
-                  } else {
-                    isActive = true;
-                  }
+                if (currentDateTime.getHours() * 60 + currentDateTime.getMinutes() >= parseIntTimeStartMin + parseIntTimeStart * 60 && currentDateTime.getHours() * 60 + currentDateTime.getMinutes() <= parseIntTimeEndMin + parseIntTimeEnd * 60) {
+                  isActive = true;
+                } else {
+                  isActive = false;
                 }
                 const textDecoration = data.isComplete ? 'line-through' : 'unset';
                 const active = isActive ? { textDecoration, color: secondary, backgroundColor: primary } : { textDecoration };
