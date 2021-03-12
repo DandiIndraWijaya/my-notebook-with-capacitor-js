@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable max-len */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
@@ -89,12 +90,14 @@ const Schedule = ({ theme }) => {
       do {
         swapped = false;
         for (let i = 0; i < len; i += 1) {
-          const splitedFirstSchedule = addedSchedule[i].time[0].split(':');
-          const parseIntFirstSchedule = parseInt(splitedFirstSchedule[0]);
+          const splitedFirstTodo = addedSchedule[i].time[0].split(':');
+          const parseIntFirstTodo = parseInt(splitedFirstTodo[0]);
+          const parseIntTimeStartMin = parseInt(splitedFirstTodo[1]);
 
-          const splitedSecondSchedule = addedSchedule[i + 1].time[0].split(':');
-          const parseIntSecondSchedule = parseInt(splitedSecondSchedule[0]);
-          if (parseIntFirstSchedule > parseIntSecondSchedule) {
+          const splitedSecondTodo = addedSchedule[i + 1].time[0].split(':');
+          const parseIntSecondTodo = parseInt(splitedSecondTodo[0]);
+          const parseIntTimeEndMin = parseInt(splitedSecondTodo[1]);
+          if (parseIntFirstTodo > parseIntSecondTodo || parseIntTimeStartMin > parseIntTimeEndMin && parseIntFirstTodo === parseIntSecondTodo) {
             const tmp = addedSchedule[i];
             addedSchedule[i] = addedSchedule[i + 1];
             addedSchedule[i + 1] = tmp;

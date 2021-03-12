@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
@@ -50,10 +51,12 @@ const Todos = ({ theme }) => {
         for (let i = 0; i < len; i += 1) {
           const splitedFirstTodo = addedTodo[i].time[0].split(':');
           const parseIntFirstTodo = parseInt(splitedFirstTodo[0]);
+          const parseIntTimeStartMin = parseInt(splitedFirstTodo[1]);
 
           const splitedSecondTodo = addedTodo[i + 1].time[0].split(':');
           const parseIntSecondTodo = parseInt(splitedSecondTodo[0]);
-          if (parseIntFirstTodo > parseIntSecondTodo) {
+          const parseIntTimeEndMin = parseInt(splitedSecondTodo[1]);
+          if (parseIntFirstTodo > parseIntSecondTodo || parseIntTimeStartMin > parseIntTimeEndMin && parseIntFirstTodo === parseIntSecondTodo) {
             const tmp = addedTodo[i];
             addedTodo[i] = addedTodo[i + 1];
             addedTodo[i + 1] = tmp;
