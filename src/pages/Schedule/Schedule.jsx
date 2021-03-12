@@ -196,7 +196,7 @@ const Schedule = ({ theme }) => {
                         const parseIntTimeEndSec = parseInt(splitedTimeEnd[1]);
 
                         let isActive;
-                        if (currentDateTime.getDay() === key + 1 && currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
+                        if (currentDateTime.getDay() === key + 1 && currentDateTime.getHours() === parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
                           if (parseIntTimeEndSec !== 0 && parseIntTimeStart === parseIntTimeEnd) {
                             isActive = true;
                           } else if (parseIntTimeStart < parseIntTimeEnd) {

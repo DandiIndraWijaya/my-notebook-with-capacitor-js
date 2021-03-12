@@ -142,7 +142,7 @@ const Todos = ({ theme }) => {
                 const parseIntTimeEndSec = parseInt(splitedTimeEnd[1]);
 
                 let isActive;
-                if (currentDateTime.getHours() >= parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
+                if (currentDateTime.getHours() === parseIntTimeStart && currentDateTime.getHours() <= parseIntTimeEnd) {
                   if (parseIntTimeEndSec !== 0 && parseIntTimeStart === parseIntTimeEnd) {
                     isActive = true;
                   } else if (parseIntTimeStart < parseIntTimeEnd) {
