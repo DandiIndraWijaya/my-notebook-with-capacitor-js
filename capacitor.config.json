@@ -1,0 +1,6 @@
+{
+  "appId": "com.dandiindra.mynote",
+  "appName": "My Note",
+  "webDir": "build",
+  "bundledWebRuntime": false
+}

@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^4.6.3",
+    "@capacitor/core": "^4.6.3",
+    "@capacitor/ios": "^4.6.3",
     "@emotion/react": "^11.1.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
@@ -62,6 +65,7 @@
     ]
   },
   "devDependencies": {
+    "@capacitor/cli": "^4.6.3",
     "eslint": "^7.21.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.1.0",
